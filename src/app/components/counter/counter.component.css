@@ -1,0 +1,21 @@
+.counter-container {
+  @apply bg-white shadow-lg rounded-lg p-8 text-center;
+}
+
+.counter-display {
+  @apply text-4xl font-bold text-gray-800 mb-4;
+}
+
+.increment-button {
+  @apply bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300;
+}
+.decrement-button {
+  @apply bg-rose-500 text-white py-2 px-4 rounded-lg hover:bg-rose-600 transition duration-300;
+}
+.rest-button {
+  @apply bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition duration-300;
+}
+
+.button-group {
+  @apply flex justify-between mt-6 space-x-4;
+}

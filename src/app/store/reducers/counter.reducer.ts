@@ -21,10 +21,15 @@ const _counterReducer = createReducer(
     ...state,
     count: state.count + 1,
   })),
-  on(decrement, (state) => ({
-    ...state,
-    count: Math.max(0, state.count - 1),
-  })),
+  on(decrement, (state) => {
+    if (state.count <= 0) {
+      return state;
+    }
+    return {
+      ...state,
+      count: state.count - 1,
+    };
+  }),
   on(reset, (state) => ({
     ...state,
     count: 0,
@@ -33,10 +38,15 @@ const _counterReducer = createReducer(
     ...state,
     count: state.count + amount,
   })),
-  on(decrementByAmount, (state, { amount }) => ({
-    ...state,
-    count: Math.max(0, state.count - amount),
-  }))
+  on(decrementByAmount, (state, { amount }) => {
+    if (state.count < amount) {
+      return state;
+    }
+    return {
+      ...state,
+      count: state.count - amount,
+    };
+  })
 );
 
 export function counterReducer(

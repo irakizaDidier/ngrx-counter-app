@@ -1,26 +1,23 @@
-<section class="min-h-screen flex items-center justify-center">
-  <div class="counter-container">
+<section class="min-h-screen flex items-center justify-center p-4">
+  <div class="counter-container max-w-md w-full">
     <div class="flex justify-end">
-      <img src="/assets/images/undo.png" class="w-10 h-10 cursor-pointer"
-        (click)="undo()" />
+      <img src="/assets/images/undo.png"
+        class="w-8 h-8 md:w-10 md:h-10 cursor-pointer" (click)="undo()" />
     </div>
-    <h1 class="text-gray-500 text-3xl pb-6">Counter App</h1>
-    <div class="counter-display">
+    <h1 class="text-gray-500 text-2xl md:text-3xl pb-4 md:pb-6">Counter App</h1>
+    <div class="counter-display text-3xl md:text-4xl">
       {{ count$ | async }}
     </div>
-    <div class="button-group">
-      <button class="increment-button" (click)="increment()">Increment</button>
-      <button class="decrement-button" (click)="decrement()">Decrement</button>
-      <button class="reset-button" (click)="reset()">Reset</button>
+    <div class="button-group flex flex-col md:flex-row space-y-4 md:space-y-0">
+      <button class="increment-button">Increment</button>
+      <button class="decrement-button">Decrement</button>
+      <button class="reset-button">Reset</button>
     </div>
     <div
-      class="custom-increment mt-6 flex flex-row justify-center items-center gap-6">
-      <input
-        [(ngModel)]="customValue"
-        class="custom-input"
-        type="number"
-        placeholder="Enter Value" />
-      <div class="flex flex-col gap-4">
+      class="custom-increment mt-4 md:mt-6 flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6">
+      <input [(ngModel)]="customValue" class="custom-input w-full md:w-1/2"
+        type="number" placeholder="Enter Value" />
+      <div class="flex flex-col gap-2 md:gap-4 w-full md:w-auto">
         <button (click)="incrementByAmount()"
           class="incrementByAmount">Increment By Amount</button>
         <button (click)="decrementByAmount()"
@@ -29,8 +26,8 @@
     </div>
     <!-- Uncomment if you want to display history -->
     <!--
-    <div class="history mt-6">
-      <h2 class="text-gray-500 text-xl">History</h2>
+    <div class="history mt-4 md:mt-6">
+      <h2 class="text-gray-500 text-lg md:text-xl">History</h2>
       <ul>
         <li *ngFor="let entry of (history$ | async)">
           {{ entry }}

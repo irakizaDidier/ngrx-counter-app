@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, first } from 'rxjs/operators';
 import { selectLastCounterState } from '../../store/selectors/counter.selectors';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -35,16 +35,13 @@ export class CounterComponent {
   }
 
   decrement() {
-    this.store.dispatch(decrement());
-    this.count$
-      .pipe(
-        tap((count) => {
-          if (count === 0) {
-            this.toastr.info('Counter cannot be decremented below zero.');
-          }
-        })
-      )
-      .subscribe();
+    this.count$.pipe(first()).subscribe((count) => {
+      if (count > 0) {
+        this.store.dispatch(decrement());
+      } else {
+        this.toastr.info('Counter cannot be decremented below zero.');
+      }
+    });
   }
 
   reset() {
@@ -56,16 +53,13 @@ export class CounterComponent {
   }
 
   decrementByAmount() {
-    this.store.dispatch(decrementByAmount({ amount: this.customValue }));
-    this.count$
-      .pipe(
-        tap((count) => {
-          if (count === 0) {
-            this.toastr.info('Counter cannot be decremented below zero.');
-          }
-        })
-      )
-      .subscribe();
+    this.count$.pipe(first()).subscribe((count) => {
+      if (count >= this.customValue) {
+        this.store.dispatch(decrementByAmount({ amount: this.customValue }));
+      } else {
+        this.toastr.info('Counter cannot be decremented below zero.');
+      }
+    });
   }
 
   undo() {

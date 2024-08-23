@@ -20,36 +20,42 @@ const _counterHistoryReducer = createReducer(
   initialCounterHistoryState,
   on(increment, (state) => ({
     ...state,
-    history: [
-      ...state.history,
-      Math.max(0, state.history[state.history.length - 1] + 1),
-    ],
+    history: [...state.history, state.history[state.history.length - 1] + 1],
   })),
-  on(decrement, (state) => ({
-    ...state,
-    history: [
-      ...state.history,
-      Math.max(0, state.history[state.history.length - 1] - 1),
-    ],
-  })),
+  on(decrement, (state) => {
+    const lastCount = state.history[state.history.length - 1];
+    if (lastCount <= 0) {
+      return state; 
+    }
+    return {
+      ...state,
+      history: [...state.history, lastCount - 1],
+    };
+  }),
   on(reset, (state) => ({
     ...state,
-    history: [0],
+    history: [
+      ...state.history,
+      0,
+    ],
   })),
   on(incrementByAmount, (state, { amount }) => ({
     ...state,
     history: [
       ...state.history,
-      Math.max(0, state.history[state.history.length - 1] + amount),
+      state.history[state.history.length - 1] + amount,
     ],
   })),
-  on(decrementByAmount, (state, { amount }) => ({
-    ...state,
-    history: [
-      ...state.history,
-      Math.max(0, state.history[state.history.length - 1] - amount),
-    ],
-  })),
+  on(decrementByAmount, (state, { amount }) => {
+    const lastCount = state.history[state.history.length - 1];
+    if (lastCount < amount) {
+      return state;
+    }
+    return {
+      ...state,
+      history: [...state.history, lastCount - amount],
+    };
+  }),
   on(undo, (state) => {
     if (state.history.length <= 1) {
       return state;

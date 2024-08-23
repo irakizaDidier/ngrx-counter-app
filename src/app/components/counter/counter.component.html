@@ -9,9 +9,9 @@
       {{ count$ | async }}
     </div>
     <div class="button-group flex flex-col md:flex-row space-y-4 md:space-y-0">
-      <button class="increment-button">Increment</button>
-      <button class="decrement-button">Decrement</button>
-      <button class="reset-button">Reset</button>
+      <button class="increment-button" (click)="increment()">Increment</button>
+      <button class="decrement-button" (click)="decrement()">Decrement</button>
+      <button class="reset-button" (click)="reset()">Reset</button>
     </div>
     <div
       class="custom-increment mt-4 md:mt-6 flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6">

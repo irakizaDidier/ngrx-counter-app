@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectCount } from '../../store/selectors/counter.selectors';
+import { selectLastCounterState } from '../../store/selectors/counter.selectors';
 import {
   increment,
   decrement,
   reset,
   incrementByAmount,
   decrementByAmount,
+  undo,
 } from '../../store/actions/counter.actions';
+import { selectCounterHistory } from '../../store/selectors/counter-history.selectors';
+import { AppState } from 'src/app/app.module';
 
 @Component({
   selector: 'app-counter',
@@ -17,10 +20,12 @@ import {
 })
 export class CounterComponent {
   count$: Observable<number>;
+  history$: Observable<number[]>;
   customValue: number = 0;
 
-  constructor(private store: Store) {
-    this.count$ = this.store.select(selectCount);
+  constructor(private store: Store<AppState>) {
+    this.count$ = this.store.select(selectLastCounterState);
+    this.history$ = this.store.select(selectCounterHistory);
   }
 
   increment() {
@@ -41,5 +46,9 @@ export class CounterComponent {
 
   decrementByAmount() {
     this.store.dispatch(decrementByAmount({ amount: this.customValue }));
+  }
+
+  undo() {
+    this.store.dispatch(undo());
   }
 }

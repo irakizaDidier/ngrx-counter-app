@@ -1,5 +1,9 @@
 <section class="min-h-screen flex items-center justify-center">
   <div class="counter-container">
+    <div class="flex justify-end">
+      <img src="/assets/images/undo.png" class="w-10 h-10 cursor-pointer"
+        (click)="undo()" />
+    </div>
     <h1 class="text-gray-500 text-3xl pb-6">Counter App</h1>
     <div class="counter-display">
       {{ count$ | async }}
@@ -18,12 +22,18 @@
         placeholder="Enter Value" />
       <div class="flex flex-col gap-4">
         <button (click)="incrementByAmount()"
-          class="incrementByAmount">Increment
-          By Amount</button>
+          class="incrementByAmount">Increment By Amount</button>
         <button (click)="decrementByAmount()"
-          class="decrementByAmount">Decrement
-          By Amount</button>
+          class="decrementByAmount">Decrement By Amount</button>
       </div>
     </div>
+    <!-- <div class="history mt-6">
+      <h2 class="text-gray-500 text-xl">History</h2>
+      <ul>
+        <li *ngFor="let entry of (history$ | async)">
+          {{ entry }}
+        </li>
+      </ul>
+    </div> -->
   </div>
 </section>

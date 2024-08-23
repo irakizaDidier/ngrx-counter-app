@@ -20,31 +20,34 @@ const _counterHistoryReducer = createReducer(
   initialCounterHistoryState,
   on(increment, (state) => ({
     ...state,
-    history: [...state.history, state.history[state.history.length - 1] + 1],
+    history: [
+      ...state.history,
+      Math.max(0, state.history[state.history.length - 1] + 1),
+    ],
   })),
   on(decrement, (state) => ({
     ...state,
-    history: [...state.history, state.history[state.history.length - 1] - 1],
+    history: [
+      ...state.history,
+      Math.max(0, state.history[state.history.length - 1] - 1),
+    ],
   })),
-  on(reset, (state) => {
-    const currentValue = state.history[state.history.length - 1];
-    return {
-      ...state,
-      history: [...state.history, 0],
-    };
-  }),
+  on(reset, (state) => ({
+    ...state,
+    history: [0],
+  })),
   on(incrementByAmount, (state, { amount }) => ({
     ...state,
     history: [
       ...state.history,
-      state.history[state.history.length - 1] + amount,
+      Math.max(0, state.history[state.history.length - 1] + amount),
     ],
   })),
   on(decrementByAmount, (state, { amount }) => ({
     ...state,
     history: [
       ...state.history,
-      state.history[state.history.length - 1] - amount,
+      Math.max(0, state.history[state.history.length - 1] - amount),
     ],
   })),
   on(undo, (state) => {

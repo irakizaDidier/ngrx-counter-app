@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { selectLastCounterState } from '../../store/selectors/counter.selectors';
+import { ToastrService } from 'ngx-toastr';
 import {
   increment,
   decrement,
@@ -23,9 +25,9 @@ export class CounterComponent {
   history$: Observable<number[]>;
   customValue: number = 0;
 
-  constructor(private store: Store<AppState>) {
-    this.count$ = this.store.select(selectLastCounterState);
-    this.history$ = this.store.select(selectCounterHistory);
+  constructor(private store: Store<AppState>, private toastr: ToastrService) {
+    this.count$ = this.store.pipe(select(selectLastCounterState));
+    this.history$ = this.store.pipe(select(selectCounterHistory));
   }
 
   increment() {
@@ -34,6 +36,15 @@ export class CounterComponent {
 
   decrement() {
     this.store.dispatch(decrement());
+    this.count$
+      .pipe(
+        tap((count) => {
+          if (count === 0) {
+            this.toastr.info('Counter cannot be decremented below zero.');
+          }
+        })
+      )
+      .subscribe();
   }
 
   reset() {
@@ -46,6 +57,15 @@ export class CounterComponent {
 
   decrementByAmount() {
     this.store.dispatch(decrementByAmount({ amount: this.customValue }));
+    this.count$
+      .pipe(
+        tap((count) => {
+          if (count === 0) {
+            this.toastr.info('Counter cannot be decremented below zero.');
+          }
+        })
+      )
+      .subscribe();
   }
 
   undo() {
